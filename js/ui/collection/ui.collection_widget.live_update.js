@@ -18,22 +18,6 @@ export default CollectionWidget.inherit({
         });
     },
 
-    ctor: function() {
-        this.callBase.apply(this, arguments);
-
-        this._customizeStoreLoadOptions = (e) => {
-            const dataSource = this._dataSource;
-            if(dataSource && !dataSource.isLoaded()) {
-                this._correctionIndex = 0;
-            }
-            if(this._correctionIndex && e.storeLoadOptions) {
-                e.storeLoadOptions.skip += this._correctionIndex;
-            }
-        },
-
-        this._dataSource && this._dataSource.on('customizeStoreLoadOptions', this._customizeStoreLoadOptions);
-    },
-
     reload: function() {
         this._correctionIndex = 0;
     },
