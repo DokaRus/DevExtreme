@@ -1,4 +1,4 @@
-# DevExtreme
+# DevExtreme Hooray!
 
 [![Build Status](https://devextreme-ci.devexpress.com/api/badges/DevExpress/DevExtreme/status.svg?branch=20_1)](https://devextreme-ci.devexpress.com/DevExpress/DevExtreme)
 
