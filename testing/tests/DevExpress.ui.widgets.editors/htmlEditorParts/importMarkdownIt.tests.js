@@ -1,6 +1,6 @@
 SystemJS.config({
     map: {
-        'showdown': '/testing/helpers/quillDependencies/noShowdown.js'
+        'markdown-it': '/testing/helpers/quillDependencies/noMarkdownIt.js'
     }
 });
 
@@ -12,16 +12,18 @@ define(function(require) {
             assert.throws(
                 function() { new MarkdownConverter(); },
                 function(e) {
-                    return /(E1041)[\s\S]*(Showdown)/.test(e.message);
+                    return /(E1041)[\s\S]*(Markdown-it)/.test(e.message);
                 },
-                'The showdown script isn\'t referenced'
+                'The markdown-it script isn\'t referenced'
             );
         });
 
-        QUnit.test('initialize showdown from window', function(assert) {
-            const prevWinShowdown = window.showdown;
+        QUnit.test('initialize markdown-it from window', function(assert) {
+            // eslint-disable-next-line spellcheck/spell-checker
+            const prevWinMarkdownIt = window.markdownit;
 
-            window.showdown = {
+            // eslint-disable-next-line spellcheck/spell-checker
+            window.markdownit = {
                 Converter: function() {
                     this.initialized = true;
                 }
@@ -31,7 +33,8 @@ define(function(require) {
 
             assert.ok(converter._markdown2Html.initialized);
 
-            window.showdown = prevWinShowdown;
+            // eslint-disable-next-line spellcheck/spell-checker
+            window.markdownit = prevWinMarkdownIt;
         });
     });
 });

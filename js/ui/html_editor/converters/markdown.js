@@ -1,6 +1,6 @@
 
 import TurnDown from 'turndown';
-import ShowDown from 'showdown';
+import MarkdownIt from 'markdown-it';
 
 import { getWindow } from '../../../core/utils/window';
 import Errors from '../../widget/ui.errors';
@@ -9,15 +9,16 @@ import converterController from '../converterController';
 class MarkdownConverter {
     constructor() {
         const window = getWindow();
-        const turndown = window && window.TurndownService || TurnDown;
-        const showdown = window && window.showdown || ShowDown;
+        const turndown = window?.TurndownService || TurnDown;
+        // eslint-disable-next-line spellcheck/spell-checker
+        const markdownIt = window?.markdownit || MarkdownIt;
 
         if(!turndown) {
             throw Errors.Error('E1041', 'Turndown');
         }
 
-        if(!showdown) {
-            throw Errors.Error('E1041', 'Showdown');
+        if(!markdownIt) {
+            throw Errors.Error('E1041', 'Markdown-it');
         }
 
         this._html2Markdown = new turndown();
@@ -33,9 +34,8 @@ class MarkdownConverter {
             });
         }
 
-        this._markdown2Html = new showdown.Converter({
-            simpleLineBreaks: true,
-            strikethrough: true
+        this._markdown2Html = new markdownIt({
+            breaks: true
         });
     }
 
@@ -44,7 +44,7 @@ class MarkdownConverter {
     }
 
     toHtml(markdownMarkup) {
-        let markup = this._markdown2Html.makeHtml(markdownMarkup);
+        let markup = this._markdown2Html.render(markdownMarkup || '');
 
         if(markup) {
             markup = markup.replace(new RegExp('\\r?\\n', 'g'), '');
